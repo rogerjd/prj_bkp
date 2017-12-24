@@ -29,18 +29,18 @@ func main() {
 	}
 
 	prjNum = os.Args[1]
-	PrjPath, err := getPrdDirName(prjNum) //todo: PrjName
+	PrjDirName, err := getPrjDirName(prjNum) //todo: PrjName
 	if err != nil {
 		log.Fatal(err)
 	}
-	BkpPath := bkpBasePath + PrjPath //fmt.Sprintf(BkpBasePath, prjNum)
+	BkpPath := bkpBasePath + PrjDirName
 	BkpPath = BkpPath + "/bkps/" + makeBkpDirName()
 	err = os.Mkdir(BkpPath, os.ModeDir)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fl, err := os.Open(bkpBasePath + "/" + PrjPath + "/bkps/" + fileList)
+	fl, err := os.Open(bkpBasePath + "/" + PrjDirName + "/bkps/" + fileList)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,7 +50,8 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fn := filepath.Base(scanner.Text())
+		//fn := filepath.Base(scanner.Text()) todo: remv
+		fn := filepath.Base(fIn.Name())
 		fOut, err := os.OpenFile(BkpPath+"/"+fn, os.O_RDWR|os.O_CREATE, 666)
 		if err != nil {
 			log.Fatal(err)
@@ -63,7 +64,6 @@ func main() {
 		fOut.Close()
 		fmt.Printf("num bytes copied: %d", n)
 	}
-
 }
 
 func makeBkpDirName() string {
@@ -71,8 +71,8 @@ func makeBkpDirName() string {
 	return t.Format("20060102150405")
 }
 
-func getPrdDirName(prjNum string) (string, error) {
-	fis, err := ioutil.ReadDir(bkpBasePath) //[]FileInfo  input in string, directory name
+func getPrjDirName(prjNum string) (string, error) {
+	fis, err := ioutil.ReadDir(bkpBasePath) //[]FileInfo  input is string, directory name
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -85,7 +85,7 @@ func getPrdDirName(prjNum string) (string, error) {
 		}
 	}
 	if count != 1 {
-		return "", errors.New("Prd Dir not found or found multiple")
+		return "", errors.New("Prd Dir not found or found multiple: " + prjNum)
 	}
 	return prjName, nil
 }
