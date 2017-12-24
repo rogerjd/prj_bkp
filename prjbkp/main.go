@@ -18,7 +18,8 @@ const (
 )
 
 var (
-	prjNum string
+	prjNum         string
+	numFilesCopied int
 )
 
 func main() {
@@ -29,7 +30,7 @@ func main() {
 	}
 
 	prjNum = os.Args[1]
-	PrjDirName, err := getPrjDirName(prjNum) //todo: PrjName
+	PrjDirName, err := getPrjDirName(prjNum)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -60,10 +61,13 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		numFilesCopied++
 		fIn.Close()
 		fOut.Close()
-		fmt.Printf("num bytes copied: %d", n)
+		fmt.Printf("%s, num bytes copied: %d\n", fn, n)
 	}
+
+	fmt.Printf("success: Number files copied: %d", numFilesCopied)
 }
 
 func makeBkpDirName() string {
