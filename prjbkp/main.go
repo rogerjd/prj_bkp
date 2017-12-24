@@ -23,7 +23,7 @@ var (
 )
 
 func main() {
-	fmt.Print("prjbkp")
+	fmt.Print("prj_bkp")
 
 	if len(os.Args) != 2 {
 		log.Fatal("number args: please provide prj num")
