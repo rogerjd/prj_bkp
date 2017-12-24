@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	fileList    = "FileList.txt"
-	bkpBasePath = "c:/prjs/"
+	fileList = "FileList.txt"
+	PrjsPath = "c:/prjs/"
 )
 
 var (
@@ -34,14 +34,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	BkpPath := bkpBasePath + PrjDirName
-	BkpPath = BkpPath + "/bkps/" + makeBkpDirName()
+	BkpPath := PrjsPath + PrjDirName + "/bkps/" + makeBkpDirName()
 	err = os.Mkdir(BkpPath, os.ModeDir)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fl, err := os.Open(bkpBasePath + "/" + PrjDirName + "/bkps/" + fileList)
+	fl, err := os.Open(PrjsPath + "/" + PrjDirName + "/bkps/" + fileList)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,7 +75,7 @@ func makeBkpDirName() string {
 }
 
 func getPrjDirName(prjNum string) (string, error) {
-	fis, err := ioutil.ReadDir(bkpBasePath) //[]FileInfo  input is string, directory name
+	fis, err := ioutil.ReadDir(PrjsPath) //[]FileInfo  input is string, directory name
 	if err != nil {
 		log.Fatal(err)
 	}
