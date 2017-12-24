@@ -50,19 +50,19 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		//fn := filepath.Base(scanner.Text()) todo: remv
+
 		fn := filepath.Base(fIn.Name())
 		fOut, err := os.OpenFile(BkpPath+"/"+fn, os.O_RDWR|os.O_CREATE, 666)
 		if err != nil {
 			log.Fatal(err)
 		}
 		n, err := io.Copy(fOut, fIn)
+		fIn.Close()
+		fOut.Close()
 		if err != nil {
 			log.Fatal(err)
 		}
 		numFilesCopied++
-		fIn.Close()
-		fOut.Close()
 		fmt.Printf("%s, num bytes copied: %d\n", fn, n)
 	}
 
