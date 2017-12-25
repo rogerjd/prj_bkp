@@ -50,15 +50,16 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		defer fIn.Close()
 
 		fn := filepath.Base(fIn.Name())
 		fOut, err := os.OpenFile(BkpPath+"/"+fn, os.O_RDWR|os.O_CREATE, 666)
 		if err != nil {
 			log.Fatal(err)
 		}
+		defer fOut.Close()
+
 		n, err := io.Copy(fOut, fIn)
-		fIn.Close()
-		fOut.Close()
 		if err != nil {
 			log.Fatal(err)
 		}
